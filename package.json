@@ -1,0 +1,19 @@
+{
+  "name": "flowmetr",
+  "version": "1.0.0",
+  "description": "bin/dev",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "daisyui": "^5.0.43"
+  }
+}

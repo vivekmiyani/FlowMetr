@@ -1,0 +1,52 @@
+{
+  "name": "FlowMetr Checkpoint Node",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "<%= Rails.application.config.x.app_url %>/hooks/<%= flow.project.secret_token %>",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "run_id",
+              "value": "={{ $execution.id }}"
+            },
+            {
+              "name": "node_id",
+              "value": "checkpoint-1"
+            },
+            {
+              "name": "node_type",
+              "value": "checkpoint"
+            },
+            {
+              "name": "project_token",
+              "value": "<%= flow.project.secret_token %>"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -192,
+        -96
+      ],
+      "id": "3297b7b9-891b-4479-b864-0383f3f7e387",
+      "name": "Checkpoint Node FlowMetr",
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {},
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "",
+  "meta": {
+    "instanceId": "31e2a98557c6b2ad18b62a780397b3489b70fc47707bbeff1f39b0bc3baa3633"
+  },
+  "tags": []
+}

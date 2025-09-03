@@ -1,0 +1,36 @@
+.navbar.bg-base-100
+  .navbar-start
+    .lg:hidden.dropdown
+      .btn.btn-ghost.btn-circle{:role => "button", :tabindex => "0"}
+        = lucide_icon("menu", class: "w-5 h-5")
+      %ul.menu.menu-sm.dropdown-content.bg-base-100.rounded-box.mt-3.w-52.p-2.shadow{:class => "z-[1]", :tabindex => "0"}
+        - if user_signed_in?
+          %li= link_to "Dashboard", flows_path
+          %li= link_to "Projects", projects_path
+          %li= link_to "Flows", flows_path
+          %li= link_to "Runs", runs_path
+          %li= link_to "Docs", "https://docs.FlowMetr.com"
+          %li= button_to "Logout", destroy_user_session_path, method: :delete
+        - else
+          %li= link_to "Log in", new_user_session_path
+          %li= link_to "Signup", new_user_registration_path
+          %li= link_to "Docs", "https://docs.FlowMetr.com"
+    = link_to root_path, class: "btn btn-ghost text-xl" do
+      FlowMetr
+  .navbar-center.hidden.lg:flex
+    %ul.menu.menu-horizontal.px-1
+      - if user_signed_in?
+        %li= link_to "Dashboard", dashboard_path
+        %li= link_to "Projects", projects_path
+        %li= link_to "Flows", flows_path
+        %li= link_to "Runs", runs_path
+        %li= link_to "Docs", "https://docs.FlowMetr.com"
+      - else
+        %li= link_to "Log in", new_user_session_path
+        %li= link_to "Signup", new_user_registration_path
+        %li= link_to "Docs", "https://docs.FlowMetr.com"
+  .navbar-end
+    - if user_signed_in?
+      .mr-4
+        = current_user.email
+      = button_to "Logout", destroy_user_session_path, method: :delete

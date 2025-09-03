@@ -1,0 +1,31 @@
+.w-full.px-4.sm:px-6.lg:px-8
+  .flex.justify-between.items-center.mb-4
+    %h1.text-4xl.font-semibold Flows
+    = link_to "New Flow", new_flow_path, class: "btn btn-primary"
+  #flows.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-6.mb-8
+    - if @flows.empty?
+      %div.bg-blue-50.border-l-4.border-blue-400.text-blue-700.p-4.rounded-lg
+        %p.font-medium No flows found.
+        %p.mt-1.text-sm
+          Start by creating a new flow to monitor your workflows.
+        = link_to "Create your first flow", new_flow_path, class: "mt-3 inline-block hover:underline font-medium"
+
+    - else
+      - @flows.each do |flow|
+        .card.bg-base-100.w-96.shadow-sm.border-2.border-gray-300
+          .card-body
+            %h2.card-title= link_to flow.name, flow_path(flow), class: "hover:underline"
+            - if flow.project
+              %p.text-gray-700
+                Project:
+                = link_to flow.project.name, project_path(flow.project), class: "text-blue-600 hover:underline"
+            - else
+              %p.text-gray-700
+                Project: - none -  
+            - if !flow.description.blank?
+              %p= truncate(flow.description, length: 80)
+            - else
+              %p  - No description -
+            .card-actions.justify-end.mt-4
+              = link_to flow_path(flow), class: "btn btn-primary btn-outline btn-sm" do
+                View Details

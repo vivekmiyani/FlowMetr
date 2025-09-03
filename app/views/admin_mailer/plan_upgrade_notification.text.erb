@@ -1,0 +1,14 @@
+Plan Upgrade
+============
+
+User: <%= @user.email %>
+From: <%= @previous_plan_name || 'Free' %>
+To: <%= @user.plan&.name || 'Unknown' %>
+Upgraded at: <%= l Time.current, format: :long %>
+
+User Details:
+- ID: <%= @user.id %>
+- Name: <%= @user.name.presence || 'Not provided' %>
+- Admin: <%= @user.admin? ? 'Yes' : 'No' %>
+- Current Plan: <%= @user.plan&.name || 'None' %>
+- Previous Plan: <%= @previous_plan_name || 'None' %>

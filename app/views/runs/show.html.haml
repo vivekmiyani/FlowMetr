@@ -1,0 +1,69 @@
+%h1.text-3xl.font-semibold.mb-6 Run Details
+.bg-white.rounded-lg.shadow.p-6.mb-8
+  .grid.grid-cols-2.gap-6
+    %div
+      %p.text-sm.text-gray-600.mb-1 UUID
+      %p.font-mono= @run.uuid
+    %div
+      %p.text-sm.text-gray-600.mb-1 Flow
+      %p= link_to @run.flow.name, flow_path(@run.flow.id), class: "hover:text-blue-600"
+    %div
+      %p.text-sm.text-gray-600.mb-1 Project
+      - if @run.flow.project.present?
+        = link_to @run.flow.project.name, project_path(@run.flow.project.id), class: "hover:text-blue-600"
+      - else
+        %span.text-gray-400 No project assigned
+    %div
+      %p.text-sm.text-gray-600.mb-1 Status
+      %p
+        - case @run.status
+        - when "successful"
+          %span.text-green-600.font-semibold ✅ Success
+        - when "failed"
+          %span.text-red-600.font-semibold ❌ Failed
+        - when "pending"
+          %span.text-yellow-600.font-semibold ⏳ Pending
+        - else
+          %span.text-gray-400.italic Unknown
+    %div
+      %p.text-sm.text-gray-600.mb-1 Started At
+      %p= l(@run.started_at, format: :long) if @run.started_at
+    %div
+      %p.text-sm.text-gray-600.mb-1 Ended At
+      %p= l(@run.ended_at, format: :long) if @run.ended_at
+    %div
+      %p.text-sm.text-gray-600.mb-1 Duration
+      %p= @run.duration ? "#{@run.duration.round(2)}s" : "—"
+.bg-white.rounded-lg.shadow.mb-8
+  .px-6.py-4.border-b.border-gray-200
+    %h2.text-lg.font-semibold Measurement Points
+  .divide-y
+    - @measurement_points.each do |mp|
+      - logs = @logs_by_point[mp.id]
+      .px-6.py-4
+        .flex.items-center.justify-between
+          %div
+            .flex.items-center.gap-2
+              - if logs.any?
+                %span.text-green-600 ✓
+                %h3.font-medium= mp.name
+                %span.text-xs.px-2.bg-gray-100.rounded.capitalize{:class => "py-0.5"}= mp.node_id
+                %span.text-xs.px-2.bg-gray-100.rounded.capitalize{:class => "py-0.5"}= mp.node_type
+                - log = logs.first
+                %span.text-sm.text-gray-500
+                  = l(log.received_at, format: :long)
+              - else
+                %span.text-gray-300 ○
+                %h3.font-medium.text-gray-500= mp.name
+                %span.text-xs.px-2.bg-gray-100.rounded.capitalize.text-gray-500{:class => "py-0.5"}= mp.node_id
+                %span.text-xs.px-2.bg-gray-100.rounded.capitalize.text-gray-500{:class => "py-0.5"}= mp.node_type
+                %span.text-sm.text-gray-400 Not triggered
+
+        - if logs.any? && log.logs.present?
+          .mt-2
+            %details.bg-gray-50.rounded.p-2.text-xs
+              %summary.cursor-pointer.text-blue-600.font-semibold Show Logs
+              %pre.mt-2= JSON.pretty_generate(log.logs["value"])
+
+.mt-6.mb-12
+  = link_to "← Back to Runs", runs_path, class: "text-blue-600 hover:text-blue-800"

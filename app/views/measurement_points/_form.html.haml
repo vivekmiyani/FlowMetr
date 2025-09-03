@@ -1,0 +1,17 @@
+= form_with(model: [@flow, measurement_point], local: true, class: "space-y-4") do |f|
+  - if measurement_point.errors.any?
+    .bg-red-100.text-red-800.p-3.rounded
+      %h3
+        = pluralize(measurement_point.errors.count, "error")
+        prevented this point from being saved:
+      %ul.ml-4.list-disc
+        - measurement_point.errors.full_messages.each do |msg|
+          %li= msg
+  %div
+    = f.label :name, class: "block font-medium"
+    = f.text_field :name, class: "w-full rounded border border-gray-300 p-2"
+  %div
+    = f.label :node_type, class: "block font-medium"
+    = f.select :node_type, options_for_select(["checkpoint", "error", "stop"], measurement_point.node_type), {}, class: "w-full rounded border border-gray-300 p-2"
+  %div
+    = f.submit (measurement_point.new_record? ? "Add Measurement Point" : "Update Measurement Point"), class: "bg-blue-600 text-white px-4 py-2 rounded"

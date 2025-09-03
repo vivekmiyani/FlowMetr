@@ -1,0 +1,70 @@
+.w-full.px-4.sm:px-6.lg:px-8
+  .flex.items-center.justify-between.mb-6
+    %h1.font-bold.text-3xl= @project.name
+
+    - if @project.public_token
+      .flex.items-center
+        = link_to "Share", "#", class: "px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg", data: { controller: "share", action: "click->share#click", share_url: public_public_project_url(@project.public_token) }
+    - else
+      .flex.items-center
+        = link_to "Share", "#", class: "px-4 py-2 bg-gray-400 text-white font-semibold rounded-lg cursor-not-allowed", disabled: true, title: "Public link not enabled. Edit project to enable."
+
+  - if @project.description.present?
+    .bg-white.rounded-lg.shadow.p-6.mb-8
+      %p.text-gray-600= @project.description
+
+  - if !@project.flows.any?
+    %div.bg-blue-50.border-l-4.border-blue-400.text-blue-700.p-4.rounded-lg.mb-4
+      %p.font-medium No flows found in this project.
+      %p.mt-1.text-sm
+        Start by creating a new flow to monitor your workflows.
+      = link_to "Create your first flow", new_flow_path, class: "mt-3 inline-block hover:underline font-medium"
+
+  = render "shared/dashboard_charts", dashboard_stats: @dashboard_stats, total_runs_per_day: @total_runs_per_day, success_rate_data: @success_rate_data, form_url: project_path(@project)
+
+  %h2.text-xl.font-semibold.mt-10.mb-4 Recent Runs
+  %table.min-w-full.text-sm.bg-white.border.rounded-lg.shadow.overflow-hidden.mb-10
+    %thead.bg-gray-100.text-gray-600
+      %tr
+        %th.text-left.px-4.py-2 Run ID
+        %th.text-left.px-4.py-2 Flow
+        %th.text-left.px-4.py-2 Project
+        %th.text-left.px-4.py-2 Status
+        %th.text-left.px-4.py-2 Duration
+        %th.text-left.px-4.py-2 Started At
+        %th.text-left.px-4.py-2 Ended At
+    %tbody.divide-y
+      - @recent_runs.each do |run|
+        %tr
+          %td.px-4.py-2.font-mono.text-gray-700
+            = link_to run.uuid.truncate(12), run_path(run), class: "hover:text-blue-600"
+          %td.px-4.py-2
+            = link_to run.flow.name, flow_path(run.flow.id), class: "hover:text-blue-600"
+          %td.px-4.py-2
+            - if run.flow.project.present?
+              = link_to run.flow.project.name, project_path(run.flow.project.id), class: "hover:text-blue-600"
+            - else
+              %span.text-gray-400 No project
+          %td.px-4.py-2
+            - case run.status
+            - when "successful"
+              %span.text-green-600.font-semibold ✅ Success
+            - when "failed"
+              %span.text-red-600.font-semibold ❌ Failed
+            - when "pending"
+              %span.text-yellow-600.font-semibold ⏳ Pending
+            - else
+              %span.text-gray-400.italic Unknown
+          %td.px-4.py-2
+            = run.duration ? Time.at(run.duration).utc.strftime("%H:%M:%S") : "—"
+          %td.px-4.py-2.text-gray-500= l(run.started_at, format: :short) if run.started_at
+          %td.px-4.py-2.text-gray-500= l(run.ended_at, format: :short) if run.ended_at
+    - if @recent_runs.empty?
+      %tr
+        %td.text-center.py-4.text-gray-500.italic{:colspan => "10"} No recent runs found.
+
+
+  .mt-8.mb-8
+    = link_to "Edit Project", edit_project_path(@project), class: "text-blue-600 hover:text-blue-800 mr-4"
+    = link_to "Delete", project_path(@project), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-600 hover:underline mr-4"
+    = link_to "Back to Projects", projects_path, class: "text-gray-600 hover:text-gray-800"

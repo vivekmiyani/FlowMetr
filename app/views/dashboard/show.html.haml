@@ -1,0 +1,51 @@
+.w-full.px-4.sm:px-6.lg:px-8
+  .flex.justify-between.items-center.mb-4
+    %h1.text-4xl.font-semibold Dashboard
+
+    = link_to "New Flow", new_flow_path, class: "btn btn-primary"
+  
+  = render "shared/dashboard_charts", dashboard_stats: @dashboard_stats, total_runs_per_day: @total_runs_per_day, success_rate_data: @success_rate_data,form_url: dashboard_path
+
+  %h2.text-xl.font-semibold.mb-4.mt-4 Recent Runs
+  %table.min-w-full.text-sm.bg-white.border.rounded-lg.shadow.overflow-hidden.mb-10
+    %thead.bg-gray-100.text-gray-600
+      %tr
+        %th.text-left.px-4.py-2 Run ID
+        %th.text-left.px-4.py-2 Flow
+        %th.text-left.px-4.py-2 Project
+        %th.text-left.px-4.py-2 Status
+        %th.text-left.px-4.py-2 Duration
+        %th.text-left.px-4.py-2 Started At
+        %th.text-left.px-4.py-2 Ended At
+    %tbody.divide-y
+      - @recent_runs.each do |run|
+        %tr
+          %td.px-4.py-2.font-mono.text-gray-700
+            = link_to run.uuid.truncate(12), run_path(run), class: "hover:text-blue-600"
+          %td.px-4.py-2
+            = link_to run.flow.name, flow_path(run.flow.id), class: "hover:text-blue-600"
+          %td.px-4.py-2
+            - if run.flow.project.present?
+              = link_to run.flow.project.name, project_path(run.flow.project.id), class: "hover:text-blue-600"
+            - else
+              %span.text-gray-400 No project
+          %td.px-4.py-2
+            - case run.status
+            - when "successful"
+              %span.text-green-600.font-semibold ✅ Success
+            - when "failed"
+              %span.text-red-600.font-semibold ❌ Failed
+            - when "pending"
+              %span.text-yellow-600.font-semibold ⏳ Pending
+            - else
+              %span.text-gray-400.italic Unknown
+          %td.px-4.py-2
+            = run.duration ? Time.at(run.duration).utc.strftime("%H:%M:%S") : "—"
+          %td.px-4.py-2.text-gray-500= l(run.started_at, format: :short) if run.started_at
+          %td.px-4.py-2.text-gray-500= l(run.ended_at, format: :short) if run.ended_at
+    - if @recent_runs.empty?
+      %tr
+        %td.text-center.py-4.text-gray-500.italic{:colspan => "10"} No recent runs found.
+    %tr
+      %td.text-center.py-4{:colspan => "10"}
+        = link_to "View All Runs", runs_path, class: "text-blue-600 hover:underline"

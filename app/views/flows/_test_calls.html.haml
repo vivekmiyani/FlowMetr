@@ -1,0 +1,30 @@
+- run_id = SecureRandom.hex(8)
+%h2.text-lg.font-semibold.text-gray-800.mt-8.mb-6 Test Calls
+.mb-6
+  .flex.items-center.gap-2
+    %h2.text-lg.font-semibold.text-gray-800.mb-2 Start a Test Run
+    = link_to "#{webhook_url_for(@flow)}?run_id=#{run_id}&node_id=start-trigger&node_type=start&logs=Started&project_token=#{@flow.project.secret_token}", target: "_blank", class: "text-green-600 hover:text-green-800 transition-colors" do
+      = heroicon("play", variant: :solid, options: { class: "h-6 w-6 mb-2 text-blue-700" })
+  %code.block.bg-gray-100.text-blue-700.font-mono.px-2.py-1.rounded
+    = "#{webhook_url_for(@flow)}?run_id=#{run_id}&node_id=start-trigger&node_type=start&logs=Started&project_token=#{@flow.project.secret_token}"
+.mb-6
+  .flex.items-center.gap-2
+    %h2.text-lg.font-semibold.text-gray-800.mb-2 Monitor a Checkpoint
+    = link_to "#{webhook_url_for(@flow)}?run_id=#{run_id}&node_id=checkpoint-1&node_type=checkpoint&logs=Checkpoint1&project_token=#{@flow.project.secret_token}", target: "_blank", class: "text-green-600 hover:text-green-800 transition-colors" do
+      = heroicon("play", variant: :solid, options: { class: "h-6 w-6 mb-2 text-blue-700" })
+  %code.block.bg-gray-100.text-blue-700.font-mono.px-2.py-1.rounded
+    = "#{webhook_url_for(@flow)}?run_id=#{run_id}&node_id=checkpoint-1&node_type=checkpoint&logs=Checkpoint1&project_token=#{@flow.project.secret_token}"
+.mb-6
+  .flex.items-center.gap-2
+    %h2.text-lg.font-semibold.text-gray-800.mb-2 Stop the Test Run
+    = link_to "#{webhook_url_for(@flow)}?run_id=#{run_id}&node_id=stop-trigger&node_type=stop&logs=Stopped&project_token=#{@flow.project.secret_token}", target: "_blank", class: "text-green-600 hover:text-green-800 transition-colors" do
+      = heroicon("play", variant: :solid, options: { class: "h-6 w-6 mb-2 text-blue-700" })
+  %code.block.bg-gray-100.text-blue-700.font-mono.px-2.py-1.rounded
+    = "#{webhook_url_for(@flow)}?run_id=#{run_id}&node_id=stop-trigger&node_type=stop&logs=Stopped&project_token=#{@flow.project.secret_token}"
+.mb-6
+  .flex.items-center.gap-2
+    %h2.text-lg.font-semibold.text-gray-800.mb-2 Trigger an Error
+    = link_to "#{webhook_url_for(@flow)}?run_id=#{run_id}&node_id=error-1&node_type=error&logs=GotError&project_token=#{@flow.project.secret_token}", target: "_blank", class: "text-green-600 hover:text-green-800 transition-colors" do
+      = heroicon("play", variant: :solid, options: { class: "h-6 w-6 mb-2 text-blue-700" })
+  %code.block.bg-gray-100.text-blue-700.font-mono.px-2.py-1.rounded
+    = "#{webhook_url_for(@flow)}?run_id=#{run_id}&node_id=error-1&node_type=error&logs=GotError&project_token=#{@flow.project.secret_token}"

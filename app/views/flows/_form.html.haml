@@ -1,0 +1,26 @@
+= form_with(model: flow, class: "contents") do |form|
+  - if flow.errors.any?
+    #error_explanation.bg-red-50.text-red-500.px-3.py-2.font-medium.rounded-lg.mt-3
+      %h2
+        = pluralize(flow.errors.count, "error")
+        prohibited this flow from being saved:
+      %ul
+        - flow.errors.each do |error|
+          %li= error.full_message
+  .my-5
+    = form.label :name
+    = form.text_field :name, required: true, placeholder: "How is the name of the flow you are monitoring?" ,class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
+  .my-5
+    = form.label :url, "Flow URL"
+    = form.text_field :url, placeholder: "The link to the flow you are monitoring (optional)",class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
+  .my-5
+    = form.label :description
+    = form.textarea :description, rows: 4, placeholder: "A description of the flow you are monitoring (optional)",class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
+  .my-5
+    = form.label :project_id, "Assign to Project"
+    = form.collection_select :project_id, @projects, :id, :name,
+      { selected: current_user.projects.find_by(name: "Default")&.id },
+      { class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" }
+  
+  .inline
+    = form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer mb-5"

@@ -1,0 +1,23 @@
+%h1 🚨 Error Triggered Alert
+
+%p
+  %strong Flow:
+  = @point.flow.name
+
+%p
+  %strong Measurement Point:
+  = "#{@point.name} (Type: #{@point.node_type})"
+
+%p
+  %strong Run ID:
+  = @run.uuid
+
+%p
+  %strong Started At:
+  = @run.started_at
+
+%p
+  Please investigate this issue as soon as possible.
+
+%p
+  — FlowMetr 🚀

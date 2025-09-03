@@ -1,0 +1,10 @@
+%li.border.p-3.rounded.shadow
+  %strong= measurement_point.name
+  (#{measurement_point.node_type})
+  %br/
+  Webhook URL:
+  %code.block.mt-1.text-sm.text-gray-600.break-all
+    = webhook_receiver_url(measurement_point.webhook_token)
+  .mt-3
+    = link_to "Show Details", measurement_point_path(measurement_point),                                  |
+      class: "inline-block bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition" |

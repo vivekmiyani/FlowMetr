@@ -1,0 +1,182 @@
+%main.bg-white.text-gray-900
+
+  %div.hero.relative.isolate.px-6.lg:px-8.bg-cover.bg-center
+    // Overlay
+    .absolute.inset-0.bg-white.bg-opacity-90
+
+    // Content
+    .relative.mx-auto.max-w-2xl.py-16.sm:py-16
+      .text-center
+        %h1
+          .text-4xl.font-bold.tracking-tight.sm:text-6xl.text-gray-600 The Monitoring Hub
+          .text-4xl.font-bold.tracking-tight.sm:text-6xl.text-blue-600 for Automation Teams
+        
+        = image_tag 'monitoring.png', alt: 'Monitoring', class: 'mx-auto w-16 h-16 my-4'
+
+        %p.mt-6.text-xl.leading-8.text-gray-600 Track every workflow, from AI to integrations — and make automation bulletproof. 
+        .mt-10.flex.items-center.justify-center.gap-x-6
+          = link_to "Start Monitoring", new_user_registration_path, class: "btn btn-primary"
+        
+  .section.bg-white.py-8
+    .container.mx-auto.text-center
+      %p.text-sm.text-gray-500.mb-4
+        Works seamlessly with your favorite automation tools
+      .flex.flex-wrap.justify-center.items-center.gap-6
+        - tools = ["make.png", "n8n.jpeg", "zapier.jpeg", "webhooks.svg"]
+        - tools.each do |logo|
+          - name = File.basename(logo, File.extname(logo)).tr("-", " ").split.map(&:capitalize).join(" ")
+          = image_tag "logos/#{logo}", alt: logo.gsub(".png", "").capitalize, class: "h-8 w-auto grayscale hover:grayscale-0 transition duration-200"
+
+
+  
+  / How It Works
+  %section.bg-gray-50.py-16
+    .container.mx-auto.px-6
+      %h2.text-2xl.font-semibold.text-center.mb-12
+        Offer More Than Automations — Offer Reliability.
+      .grid.grid-cols-1.md:grid-cols-3.gap-8
+        :ruby
+          steps = [
+            { number: 1, title: 'Create a Flow Monitoring', description: 'We create webhooks and templates ready to use' },
+            { number: 2, title: 'Attach the Webhooks', description: 'Add the Start & Stop Webhooks at the Beginning and End of the Workflow you want to monitor' },
+            { number: 3, title: 'Start your Workflow', description: 'FlowMetr monitors your workflow for you.' }
+          ]
+        - steps.each do |step|
+          .text-center
+            %div.text-4xl.font-bold.text-blue-600.mb-2
+              = step[:number]
+            %h3.text-xl.font-semibold.mb-2
+              = step[:title]
+            %p.text-gray-600
+              = step[:description]
+              
+  %section.flex.flex-col.md:flex-row.items-center.justify-center.gap-10.py-12.px-6
+    .max-w-md.text-right.md:text-left
+      %p.text-2xl.font-semibold.text-gray-800.mb-4
+        What your Clients see ...
+
+    = link_to "https://flowmetr.com/public/projects/8f6e2ab5224864defaf7d3c6b5a0aed3d10a7522", class: 'fog-link', target: "_blank" do
+      = image_tag 'home-demo.png',
+                  alt:  'Demo',
+                  width: '400',       
+                  class: 'mx-auto my-4'
+      %span Click me  
+
+  / Features Comparison
+  %section.bg-white.py-16
+    .container.mx-auto.px-6
+      %h2.text-2xl.font-semibold.text-center.mb-12
+        What Changes When Monitoring Becomes Part of Your Service
+      .grid.grid-cols-1.md:grid-cols-2.gap-8
+        .bg-gray-100.p-6.rounded
+          %h3.text-xl.font-semibold.mb-4
+            With FlowMetr
+          %ul.list-disc.list-inside.text-gray-700
+            %li.flex.items-center.gap-2
+              = heroicon("check-circle", variant: :solid, options: { class: "w-5 h-5 text-green-500" })
+              You know exactly what’s running — and what’s not
+            %li.flex.items-center.gap-2
+              = heroicon("check-circle", variant: :solid, options: { class: "w-5 h-5 text-green-500" })
+              Alerts notify you instantly — before clients notice
+            %li.flex.items-center.gap-2
+              = heroicon("check-circle", variant: :solid, options: { class: "w-5 h-5 text-green-500" })
+              Transparent monitoring of every workflow
+            %li.flex.items-center.gap-2
+              = heroicon("check-circle", variant: :solid, options: { class: "w-5 h-5 text-green-500" })
+              Clear reporting justifies ongoing service fees
+            %li.flex.items-center.gap-2
+              = heroicon("check-circle", variant: :solid, options: { class: "w-5 h-5 text-green-500" })
+              You get automated summaries and error reports
+            %li.flex.items-center.gap-2
+              = heroicon("check-circle", variant: :solid, options: { class: "w-5 h-5 text-green-500" })
+              Clients say “Wow, this just works.”
+            %li.flex.items-center.gap-2
+              = heroicon("check-circle", variant: :solid, options: { class: "w-5 h-5 text-green-500" })
+              You stay involved — and keep earning monthly
+            %li.flex.items-center.gap-2
+              = heroicon("check-circle", variant: :solid, options: { class: "w-5 h-5 text-green-500" })
+              You catch issues before they become problems
+        .bg-gray-100.p-6.rounded
+          %h3.text-xl.font-semibold.mb-4
+            Without FlowMetr
+          %ul.list-disc.list-inside.text-gray-700
+            %li.flex.items-center.gap-2
+              = heroicon("minus-circle", variant: :solid, options: { class: "w-5 h-5 text-red-500" })
+              You hope automations are still running
+            %li.flex.items-center.gap-2
+              = heroicon("minus-circle", variant: :solid, options: { class: "w-5 h-5 text-red-500" })
+              Errors are only noticed when clients complain
+            %li.flex.items-center.gap-2
+              = heroicon("minus-circle", variant: :solid, options: { class: "w-5 h-5 text-red-500" })
+              No visibility into flow stability
+            %li.flex.items-center.gap-2
+              = heroicon("minus-circle", variant: :solid, options: { class: "w-5 h-5 text-red-500" })
+              No real argument for long-term retainers
+            %li.flex.items-center.gap-2
+              = heroicon("minus-circle", variant: :solid, options: { class: "w-5 h-5 text-red-500" })
+              You manually check Make/n8n/Zapier logs
+            %li.flex.items-center.gap-2
+              = heroicon("minus-circle", variant: :solid, options: { class: "w-5 h-5 text-red-500" })
+              Clients ask “Is this still working?”
+            %li.flex.items-center.gap-2
+              = heroicon("minus-circle", variant: :solid, options: { class: "w-5 h-5 text-red-500" })
+              Your service ends after the automation is built
+            %li.flex.items-center.gap-2
+              = heroicon("minus-circle", variant: :solid, options: { class: "w-5 h-5 text-red-500" })
+              You’re on call for surprise breakdowns
+
+  / Advanced Features
+  %section.bg-white.py-16
+    .container.mx-auto.px-6
+      %h2.text-2xl.font-semibold.text-center.mb-12
+        Smart Features for Smarter Automation Teams
+      .grid.grid-cols-1.md:grid-cols-3.gap-8
+        :ruby
+          features = [
+            { title: 'Client-Ready Reporting', description: 'Automatically generate branded, easy-to-understand reports your clients will love — and that help you justify retainers.' },
+            { title: 'Catch issues before your clients do.', description: 'Get instant notifications via Slack, email, or webhook when workflows fail, run too long, or stay inactive — with full control over thresholds and conditions.' },
+            { title: 'Monitoring Templates for Any Stack', description: 'Prebuilt templates for n8n, Make.com, Zapier & custom workflows let you add full monitoring in a few clicks — no dev required.' }
+          ]
+        - features.each do |feature|
+          .bg-gray-100.p-6.rounded
+            %h3.text-xl.font-semibold.mb-4
+              = feature[:title]
+            %p.text-gray-700
+              = feature[:description]
+      .mt-10.flex.items-center.justify-center.gap-x-6        
+        = link_to "Start Monitoring", new_user_registration_path, class: "btn btn-primary"
+
+:css
+  .fog-link {
+    position: relative;
+    display: inline-block;
+  }
+
+  .fog-link img {
+    display: block;
+  }
+
+  /* 🟢 Fog is always visible */
+  .fog-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(4px);
+    opacity: 1; /* <- permanent fog */
+    transition: none;
+  }
+
+  .fog-link span {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    font-size: 1.25rem;
+    font-weight: 600;
+    pointer-events: none;
+    opacity: 1; /* <- always visible text */
+    transition: none;
+  }

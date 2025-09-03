@@ -1,0 +1,20 @@
+%h2.text-lg.font-semibold.text-gray-800.mt-8 Templates
+%p Just download and import to your flow
+.grid.grid-cols-1.md:grid-cols-3.gap-6.mb-10.mt-6
+  / Column 3: N8n Templates
+  .md:col-span-1
+    %h2.text-lg.text-gray-800.mb-2 N8N Templates
+    - ["n8n_StartNode", "n8n_StopNode", "n8n_ErrorNode", "n8n_CheckpointNode"].each do |template|
+      = link_to "#{template.gsub('_', ' ').gsub('n8n', 'N8n')} Template", download_template_flow_path(@flow, template: template), class: "btn btn-outline mr-2"
+
+  / Column 1: Make Templates
+  .md:col-span-1
+    %h2.text-lg.text-gray-800.mb-2 Make Templates
+    - ["Make_StartStop"].each do |template|
+      = link_to "#{template.gsub('_', ' ')} Template", download_template_flow_path(@flow, template: template), class: "btn btn-outline mr-2"
+
+  / Column 2: Zapier Templates
+  .md:col-span-1
+    %h2.text-lg.text-gray-800.mb-2 Zapier Templates
+    - ["Zapier_StartStop"].each do |template|
+      = link_to "#{template.gsub('_', ' ')} Template", download_template_flow_path(@flow, template: template), class: "btn btn-outline mr-2"

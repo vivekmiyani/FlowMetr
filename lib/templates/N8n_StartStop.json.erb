@@ -1,0 +1,152 @@
+{
+  "name": "Start Stop Demo",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "<%= Rails.application.config.x.app_url %>/hooks/<%= flow.project.secret_token %>",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "run_id",
+              "value": "={{ $execution.id }}"
+            },
+            {
+              "name": "node_id",
+              "value": "start-trigger"
+            },
+            {
+              "name": "node_type",
+              "value": "start"
+            },
+            {
+              "name": "project_token",
+              "value": "<%= flow.project.secret_token %>"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        340,
+        0
+      ],
+      "id": "8f107056-38e0-410c-b056-ac5f35bf1720",
+      "name": "Start FlowMetr",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "<%= Rails.application.config.x.app_url %>/hooks/<%= flow.webhook_token %>",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "run_id",
+              "value": "={{ $execution.id }}"
+            },
+            {
+              "name": "node_id",
+              "value": "stop-trigger"
+            },
+            {
+              "name": "node_type",
+              "value": "stop"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        820,
+        0
+      ],
+      "id": "6ccfc840-7164-47d3-b502-5e6262f66107",
+      "name": "Stop FlowMetr",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        100,
+        0
+      ],
+      "id": "a2ff764c-5f74-4d99-8082-eeb7de5d19ba",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        580,
+        0
+      ],
+      "id": "9c83bab5-d37d-4892-bdbc-9a795a7aab86",
+      "name": "Wait",
+      "webhookId": "fdffa19b-3687-4ea0-a056-6e40fe116585"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start FlowMetr": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Start FlowMetr",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Stop FlowMetr",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "95863269-6e88-43d6-a57e-4cc6a5012304",
+  "meta": {
+    "instanceId": "ad4bcd2f63d82ba1eb37bf03a5828ed723aa48bb8c94014e3c107f49ccfe049e"
+  },
+  "id": "rHHLgG7EgRP5w5gX",
+  "tags": []
+}

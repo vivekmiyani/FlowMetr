@@ -1,0 +1,44 @@
+.w-full.px-4.sm:px-6.lg:px-8
+  %h1.text-3xl.font-semibold.mb-6 Runs
+  - if @flow.present?
+    %p.mb-4.text-gray-600
+      Showing runs for flow:
+      %strong= @flow.name
+  %table.min-w-full.bg-white.rounded-lg.shadow.overflow-hidden
+    %thead.bg-gray-100
+      %tr
+        %th.text-left.px-4.py-3.font-medium.text-sm.text-gray-600 UUID
+        %th.text-left.px-4.py-3.font-medium.text-sm.text-gray-600 Flow
+        %th.text-left.px-4.py-3.font-medium.text-sm.text-gray-600 Project
+        %th.text-left.px-4.py-3.font-medium.text-sm.text-gray-600 Status
+        %th.text-left.px-4.py-3.font-medium.text-sm.text-gray-600 Started At
+        %th.text-left.px-4.py-3.font-medium.text-sm.text-gray-600 Ended At
+        %th.text-left.px-4.py-3.font-medium.text-sm.text-gray-600 Duration
+    %tbody.divide-y.divide-gray-200
+      - @runs.each do |run|
+        %tr.hover:bg-gray-50
+          %td.px-4.py-2.font-mono.text-sm.text-gray-700
+            = link_to run.uuid.truncate(12), run_path(run), class: "hover:text-blue-600"
+          %td.px-4.py-2.text-sm.text-gray-800
+            - if run.flow
+              = link_to run.flow.name, flow_path(run.flow.id), class: "hover:text-blue-600"
+          %td.px-4.py-2.text-sm.text-gray-800
+            - if run.flow&.project
+              = link_to run.flow.project.name, project_path(run.flow.project.id), class: "hover:text-blue-600"
+          %td.px-4.py-2.text-sm
+            - case run.status
+            - when "successful"
+              %span.text-green-600.font-semibold ✅ Success
+            - when "failed"
+              %span.text-red-600.font-semibold ❌ Failed
+            - when "pending"
+              %span.text-yellow-600.font-semibold ⏳ Pending
+            - else
+              %span.text-gray-400.italic Unknown
+          %td.px-4.py-2.text-sm.text-gray-500= l(run.started_at, format: :short) if run.started_at
+          %td.px-4.py-2.text-sm.text-gray-500= l(run.ended_at, format: :short) if run.ended_at
+          %td.px-4.py-2.text-sm.text-gray-700
+            = run.duration ? "#{run.duration.round(2)}s" : "—"
+  - if @runs.empty?
+    .mt-6.text-center.text-gray-500.italic
+      No runs found.

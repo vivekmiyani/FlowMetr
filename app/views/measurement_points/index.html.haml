@@ -1,0 +1,12 @@
+.w-full
+  - if notice.present?
+    %p#notice.py-2.px-3.bg-green-50.mb-5.text-green-500.font-medium.rounded-lg.inline-block= notice
+  - content_for :title, "Measurement points"
+  .flex.justify-between.items-center
+    %h1.font-bold.text-4xl Measurement points
+    = link_to "New measurement point", new_measurement_point_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium"
+  #measurement_points.min-w-full
+    - @measurement_points.each do |measurement_point|
+      = render measurement_point
+      %p
+        = link_to "Show this measurement point", measurement_point, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"

@@ -1,0 +1,23 @@
+%section.mb-12.lg:mb-24
+  .lg:grid.lg:grid-cols-12
+    %aside.relative.block.h-16.lg:order-last.lg:col-span-5.lg:h-full.xl:col-span-6
+      / Change Picture
+    %main.flex.items.center.justify-center.px-8.py-8.sm:px-12.lg:col-span-7.lg:px-16.lg:py-12.xl:col-span-6
+      .max-w-xl.lg:max-w-3xl
+        %h1.mt-6.text-2xl.font-bold.sm:text-3xl.md:text-4xl
+          Welcome to FlowMetr!
+        = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "mt-8 grid grid-cols-6 gap-6" }) do |f|
+          = render "devise/shared/error_messages", resource: resource
+          .col-span-6
+            %label.input.input-bordered.flex.items-center.gap-2
+              = lucide_icon("mail", "class" => "h-4 w-4")
+              = f.email_field :email, autofocus: true, autocomplete: "email", class: "grow", placeholder: "email"
+            .col-span-6.mt-6
+              %label.input.input-bordered.flex.items-center.gap-2
+                = lucide_icon("lock", "class" => "h-4 w-4")
+                = f.password_field :password, autocomplete: "current-password", class: "grow", placeholder: "Password (6 characters)"
+            .col-span-6.sm:flex.sm:items-center.sm:gap-4.mt-6
+              = f.submit "Log in", class: "btn btn-primary"
+              %p.mt-4.text-sm.sm:mt-0
+                Don't have an account?
+                \#{link_to "Signup", new_user_registration_path, class: "text-gray-700 underline"}.

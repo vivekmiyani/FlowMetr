@@ -1,0 +1,56 @@
+<%= link_to "← Back to Flow", flow_path(@flow), class: "text-sm text-blue-600 hover:underline mb-4 inline-block" %>
+
+<h1 class="text-2xl font-semibold mb-6">Measurement Points</h1>
+
+<p class="mb-4 text-gray-600">
+  Current measurement points for your flow:
+  <strong><%= @flow.name %></strong>
+</p>
+
+<div class="mb-6">
+  <h2 class="text-lg font-semibold text-gray-800 mb-2">Webhook URL for This Flow</h2>
+  <code class="block bg-gray-100 text-blue-700 font-mono px-2 py-1 rounded">
+    <%= webhook_url_for(@flow) %>
+  </code>
+</div>
+
+<table class="min-w-full bg-white rounded-lg shadow overflow-hidden text-sm">
+  <thead class="bg-gray-100 text-gray-600">
+    <tr>
+      <th class="text-left px-4 py-2">node_id</th>
+      <th class="text-left px-4 py-2">Type</th>
+      <th class="text-left px-4 py-2">Created</th>
+      <th class="px-4 py-2 w-16"></th>
+    </tr>
+  </thead>
+  <tbody class="divide-y">
+    <% if @measurement_points.any? %>
+      <% @measurement_points.each do |mp| %>
+        <tr class="group">
+          <td class="px-4 py-2 font-mono text-xs text-gray-700"><%= mp.node_id %></td>
+          <td class="px-4 py-2 capitalize"><%= mp.node_type %></td>
+          <td class="px-4 py-2"><%= mp.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+          <td class="px-4 py-2 text-right">
+            <%= button_to measurement_point_path(mp),
+                method: :delete,
+                class: "opacity-0 group-hover:opacity-100 text-red-600 hover:text-red-800 transition-opacity",
+                form: { class: "inline-block" },
+                data: { turbo_confirm: "Are you sure you want to delete this measurement point?" } do %>
+              <%= heroicon("trash", variant: :solid, options: { class: "h-4 w-4" }) %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="4" class="px-4 py-4 text-center text-gray-500 italic">
+          No measurement points
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= render "flows/test_calls"%>
+
+<%= render "flows/templates"%>

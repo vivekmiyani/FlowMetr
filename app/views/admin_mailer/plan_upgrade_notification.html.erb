@@ -1,0 +1,17 @@
+<h1>Plan Upgrade</h1>
+
+<p>User: <%= @user.email %></p>
+<p>From: <%= @previous_plan_name || 'Free' %></p>
+<p>To: <%= @user.plan&.name || 'Unknown' %></p>
+<p>Upgraded at: <%= l Time.current, format: :long %></p>
+
+<p>User Details:</p>
+<ul>
+  <li>ID: <%= @user.id %></li>
+  <li>Name: <%= @user.name.presence || 'Not provided' %></li>
+  <li>Admin: <%= @user.admin? ? 'Yes' : 'No' %></li>
+  <li>Current Plan: <%= @user.plan&.name || 'None' %></li>
+  <li>Previous Plan: <%= @previous_plan_name || 'None' %></li>
+</ul>
+
+<p>View in admin: <%= admin_user_url(@user) if defined?(admin_user_url) %>

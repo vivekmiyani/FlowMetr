@@ -1,0 +1,59 @@
+{
+  "name": "FlowMetrStart Node",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "<%= Rails.application.config.x.app_url %>/hooks/<%= flow.project.secret_token %>",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "run_id",
+              "value": "={{ $execution.id }}"
+            },
+            {
+              "name": "node_id",
+              "value": "start-trigger"
+            },
+            {
+              "name": "node_type",
+              "value": "start"
+            },
+            {
+              "name": "project_token",
+              "value": "<%= flow.project.secret_token %>"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        176,
+        -48
+      ],
+      "id": "ac378db3-fd41-4a00-8230-cad51ef9eaaa",
+      "name": "Start Node FlowMetr",
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start FlowMetr": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "56666784-9837-4943-b606-c880685ec6de",
+  "meta": {
+    "instanceId": "31e2a98557c6b2ad18b62a780397b3489b70fc47707bbeff1f39b0bc3baa3633"
+  },
+  "id": "ZZszfZ3HcBi5oLix",
+  "tags": []
+}

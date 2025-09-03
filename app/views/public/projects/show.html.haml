@@ -1,0 +1,8 @@
+.w-full.px-4.sm:px-6.lg:px-8
+  %h1.text-3xl.font-bold.mb-6= @project.name
+
+  - if !@project.description.empty?
+    .bg-white.rounded-lg.shadow.p-6.mb-8
+      %p.text-gray-600= @project.description
+
+  = render "shared/dashboard_charts", dashboard_stats: @dashboard_stats, total_runs_per_day: @total_runs_per_day, success_rate_data: @success_rate_data, form_url: public_public_project_path(@project.public_token)

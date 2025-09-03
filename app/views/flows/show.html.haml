@@ -1,0 +1,101 @@
+.w-full.px-4.sm:px-6.lg:px-8
+  - if notice.present?
+    - if flash[:created_flow]
+      = link_to "Go to Flow Settings", settings_flow_path(@flow), class: "underline ml-2"
+  .flex.items-center.justify-between.mb-4
+    %h1.text-3xl.font-semibold= @flow.name
+    = link_to settings_flow_path(@flow),
+          class: "inline-flex items-center px-3 py-2 border-2 border-indigo-500 text-indigo-500 hover:bg-indigo-50 font-semibold rounded transition" do
+      %span Settings
+      = heroicon("cog-8-tooth",
+             variant: :solid,
+             options: { class: "h-6 w-6" })
+  .bg-white.rounded-lg.shadow-sm.p-6.mb-8
+    - if @flow.project.present?
+      %p.text-gray-700
+        Project:
+        = link_to @flow.project.name, project_path(@flow.project), class: "text-blue-600 hover:underline"
+    - else
+      %p.text-gray-500.italic No project assigned
+    %p.text-gray-700.mt-5= @flow.description
+
+    - if @flow.url.present?
+      %p.text-gray-700
+        Flow URL:
+        = link_to @flow.url, @flow.url, class: "text-blue-600 hover:underline"
+  - if !@flow.runs.exists?
+    = render "flows/templates"
+
+  - else
+    = render "shared/dashboard_charts", dashboard_stats: @dashboard_stats, total_runs_per_day: @total_runs_per_day, success_rate_data: @success_rate_data, form_url: flow_path(@flow)
+
+    %h2.text-xl.font-semibold.mt-10.mb-4 Flow Duration (Average per Day)
+    = line_chart @duration_data, xtitle: "Date", ytitle: "Duration (s)", library: { backgroundColor: "transparent" }
+    .mb-8
+      %h2.text-xl.font-semibold.mb-4 Runs
+      .bg-white.rounded-lg.shadow-sm.overflow-hidden
+        %table.min-w-full
+          %thead.bg-gray-50.text-gray-600
+            %tr
+              %th.text-left.px-4.py-3.font-medium.text-sm UUID
+              %th.text-left.px-4.py-3.font-medium.text-sm Status
+              %th.text-left.px-4.py-3.font-medium.text-sm Started At
+              %th.text-left.px-4.py-3.font-medium.text-sm Ended At
+              %th.text-left.px-4.py-3.font-medium.text-sm Duration
+          %tbody.divide-y.divide-gray-200
+            - if @recent_runs.any?
+              - @recent_runs.each do |run|
+                %tr.hover:bg-gray-50
+                  %td.px-4.py-3.font-mono.text-sm
+                    = link_to run.uuid.truncate(12), run_path(run), class: "text-gray-700 hover:text-blue-600"
+                  %td.px-4.py-3.text-sm
+                    - case run.status
+                    - when "successful"
+                      %span.text-green-600.font-semibold ✅ Success
+                    - when "failed"
+                      %span.text-red-600.font-semibold ❌ Failed
+                    - when "pending"
+                      %span.text-yellow-600.font-semibold ⏳ Pending
+                    - else
+                      %span.text-gray-400.italic Unknown
+                  %td.px-4.py-3.text-sm.text-gray-500
+                    = l(run.started_at, format: :short) if run.started_at
+                  %td.px-4.py-3.text-sm.text-gray-500
+                    = l(run.ended_at, format: :short) if run.ended_at
+                  %td.px-4.py-3.text-sm.text-gray-700
+                    = run.duration ? "#{run.duration.round(2)}s" : "—"
+            - else
+              %tr
+                %td.px-4.py-8.text-center{:colspan => "4"}
+                  %p.text-gray-500.italic.mb-3 No runs found for this flow.
+                  = link_to settings_flow_path(@flow), class: "inline-flex items-center text-blue-600 hover:text-blue-800" do
+                    = heroicon("cog-8-tooth", variant: :solid, options: { class: "h-4 w-4 mr-1" })
+                    Configure Flow Settings
+  .flex.gap-2.mb-12
+    = link_to "Edit Flow", edit_flow_path(@flow), class: "rounded-lg py-2 px-4 bg-gray-100 hover:bg-gray-200 inline-block font-medium transition"
+    = link_to "Back to Flows", flows_path, class: "rounded-lg py-2 px-4 bg-gray-100 hover:bg-gray-200 inline-block font-medium transition"
+    = button_to "Delete Flow", @flow,
+      method: :delete,
+      data: { confirm: "Are you sure you want to delete this flow? This action cannot be undone." },
+      class: "rounded-lg py-2 px-4 bg-red-100 hover:bg-red-200 font-medium transition text-red-700",
+      form: { class: "inline-block" }
+
+:javascript
+  document.addEventListener("turbo:load", function () {
+    document.querySelectorAll(".copy-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        const targetSelector = button.dataset.clipboardTarget;
+        const text = document.querySelector(targetSelector)?.textContent;
+        if (text) {
+          navigator.clipboard.writeText(text).then(() => {
+            button.textContent = "Copied!";
+            setTimeout(() => button.textContent = "Copy", 1500);
+          });
+        }
+      });
+    });
+  });
+
+
+
+  

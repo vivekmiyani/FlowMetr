@@ -1,0 +1,23 @@
+.w-full.px-4.sm:px-6.lg:px-8
+  .flex.justify-between.items-center.mb-4
+    %h1.text-4xl.font-semibold Projects
+    = link_to "New Project", new_project_path, class: "btn btn-primary"
+  #flows.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-6.mb-8
+    - if @projects.empty?
+      %div.bg-blue-50.border-l-4.border-blue-400.text-blue-700.p-4.rounded-lg
+        %p.font-medium No projects found.
+        %p.mt-1.text-sm
+          Start by creating a new project to organize your flows.
+        = link_to "Create your first project", new_project_path, class: "mt-3 inline-block text-blue-600 hover:underline font-medium"
+    - else
+      - @projects.each do |project|
+        .card.bg-base-100.w-96.shadow-sm.border-2.border-gray-300
+          .card-body
+            %h2.card-title= link_to project.name, project_path(project), class: "hover:underline"
+            - if !project.description.blank?
+              %p= truncate(project.description, length: 80)
+            - else
+              %p  - No description -
+            .card-actions.justify-end.mt-4
+              = link_to project_path(project), class: "btn btn-primary btn-outline btn-sm" do
+                View Details

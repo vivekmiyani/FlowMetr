@@ -1,0 +1,14 @@
+<h1>New User Signup</h1>
+<p>Email: <%= @user.email %></p>
+<p>Plan: <%= @user.plan&.name || 'Free' %></p>
+<p>Signed up: <%= l @user.created_at, format: :long %></p>
+
+<p>User Details:</p>
+<ul>
+  <li>ID: <%= @user.id %></li>
+  <li>Email: <%= @user.email %></li>
+  <li>Admin: <%= @user.admin? ? 'Yes' : 'No' %></li>
+  <li>Confirmed: <%= @user.confirmed? ? 'Yes' : 'No' %></li>
+</ul>
+
+<p>View in admin: <%= admin_user_url(@user) if defined?(admin_user_url) %>
