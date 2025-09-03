@@ -1,7 +1,10 @@
 # FlowMetr
 Workflow, Pipeline &amp; AI Agent Monitoring Platform. Metrics, logs and traces for all your automations.
+Works with every tool, which is capable of sending a http request like:
 
-[FlowMetr](https://FlowMetr.com)
+[n8n](https://n8n.io), [make.com](https://make.com), [zapier](https://zapier.com), ...
+
+Website: [FlowMetr](https://FlowMetr.com)
 
 <img src="app/assets/images/flowmetr_short.gif" width="600" alt="FlowMetr">
 
