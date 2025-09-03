@@ -3,6 +3,8 @@ Workflow, Pipeline &amp; AI Agent Monitoring Platform. Metrics, logs and traces 
 
 [FlowMetr](https://FlowMetr.com)
 
+<img src="app/assets/images/flowmetr_short.gif" width="600" alt="FlowMetr">
+
 ## Installation
 
 ```bash
