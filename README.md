@@ -18,6 +18,6 @@ Login at http://localhost:3000 with the default credentials:
 
 ## Documentation
 
-[FlowMetr Documentation](https://https://docs.flowmetr.com)
+[FlowMetr Documentation](https://docs.flowmetr.com)
 
 
