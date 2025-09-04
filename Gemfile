@@ -81,6 +81,7 @@ group :development, :test do
 
   # Testing framework
   gem "rspec-rails", "~> 6.1.0"
+  gem "shoulda-matchers", "~> 6.0"
 
   # Test data generation
   gem "factory_bot_rails"
