@@ -16,7 +16,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres
+        image: postgres:alpine
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -41,7 +41,7 @@ jobs:
           bundler-cache: true
 
       - name: Prepare database
-        run: bin/rails db:test:prepare test test:system
+        run: bin/rails db:test:prepare
 
       - name: Run tests
         run: bundle exec rspec
